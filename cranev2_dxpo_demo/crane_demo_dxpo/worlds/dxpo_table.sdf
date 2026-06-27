@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<!-- DXPOデモ用 world: 箱を pick_and_place_with_pos の place1=(0.2,-0.15) に配置 -->
+<sdf version="1.9">
+  <world name="default">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+      filename="ignition-gazebo-physics-system"
+      name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin
+      filename="ignition-gazebo-user-commands-system"
+      name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="ignition-gazebo-scene-broadcaster-system"
+      name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <include>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Sun
+      </uri>
+    </include>
+
+    <include>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Ground%20Plane
+      </uri>
+    </include>
+
+    <include>
+      <uri>
+        https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Table
+      </uri>
+      <pose>0.29 0 0 0 0 1.5708</pose>
+    </include>
+
+    <model name="aruco_cube_0">
+      <include>
+        <uri>
+          model://aruco_cube_0
+        </uri>
+      </include>
+      <pose>0.2 -0.15 1.05 0 0 0</pose>
+    </model>
+
+  </world>
+</sdf>
