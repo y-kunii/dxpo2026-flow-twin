@@ -26,6 +26,8 @@ Docker Composeで起動し、ブラウザーから `http://localhost:8080/` に�
 
 画面、API、シーン読み込み、AprilTag検出のつながりは [コード構成](docs/architecture.md) を参照してください。
 
+実カメラとAprilTagを使った箱の位置同期は [位置同期仕様](docs/apriltag-sync-spec.md)、Godot側の受信・表示は [Godot実装手順](docs/godot-sync-guide.md) を参照してください。
+
 ## 開発時の確認
 
 Node.js 20.19以降がある環境で、画面の検査とビルドを実行できます。
