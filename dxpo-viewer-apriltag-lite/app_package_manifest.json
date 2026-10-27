@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "spatial_3dgs_composed_application_distribution",
+  "application_id": "20260817-dxpo-viewer-apriltag-lite",
+  "application_version": "0.3.0-dev.1",
+  "source_revision": "7ead627d063758c5f0d2564b23ee003308c50cba",
+  "created_at": "2026-08-18T00:31:49.529486+00:00",
+  "distribution_scope": "internal_evaluation_only",
+  "entrypoint": "http://localhost:8080/",
+  "composition": {
+    "ui_modules": [
+      "viewer",
+      "apriltag-check"
+    ],
+    "backend_components": [
+      "scene-reader-api",
+      "apriltag-api"
+    ],
+    "viewer_variant": "full"
+  },
+  "api_feature_allowlist": [
+    "scene-reader",
+    "apriltag-check"
+  ],
+  "requirements": {
+    "gpu": false,
+    "camera": true,
+    "rosbridge": false
+  },
+  "data_access": {
+    "read": [
+      "bundled verified Scene Packages",
+      "bundled verified Scene Packages"
+    ],
+    "write": []
+  },
+  "canonical_data_included": true,
+  "bundled_scene_packages": [
+    {
+      "scene_package_id": "20260817_DXPO-fixed-rig-spzv4-495a985dfdf1",
+      "scene_id": "20260817_DXPO",
+      "reconstruction_id": "20260817_DXPO-fixed-rig",
+      "scene_manifest_sha256": "082da6f76b0e513e04839a5edbf0d4bff4cc43c3ec64fc08c9af0401204b08d3",
+      "viewer_url": "/?scene_package=20260817_DXPO-fixed-rig-spzv4-495a985dfdf1",
+      "scene_content_mode": "display"
+    }
+  ],
+  "content_delivery": {
+    "mode": "offline",
+    "content_packs": []
+  },
+  "product_release": {
+    "release_id": "experimental-20260817-dxpo-viewer-apriltag-lite-build-20260818T003149529486Z",
+    "profile_id": null,
+    "profile_version": null,
+    "runtime_version": "0.3.0-dev.1",
+    "build_id": "build-20260818T003149529486Z",
+    "lifecycle": "draft",
+    "support_level": "experimental",
+    "distribution_mode": "offline"
+  },
+  "build_provenance": {
+    "schema_version": "1.0.0",
+    "source": {
+      "commit": "7ead627d063758c5f0d2564b23ee003308c50cba",
+      "dirty": true,
+      "dirty_path_count": 53
+    },
+    "runtime": {
+      "schema_version": "1.0.0",
+      "runtime_id": "spatial-3dgs-runtime",
+      "version": "0.3.0-dev.1",
+      "contract_version": "1.0.0"
+    },
+    "runtime_contract_sha256": "45b00372baac68e53a60e9c05e966eb293838bcf1e4f9a542465087b4b9ebf25",
+    "product_profile_sha256": null,
+    "recipe_sha256": "9cd81a5aa0502f7305ce34f110fe07421e2d191384bc2b07a5cae9502c5216f2",
+    "component_lock_sha256": "a7cf723f699207b905fa3d2160b02b715d4d9c7ce9b3f21f7e3c04f164b8c490",
+    "dependency_locks": [
+      {
+        "uri": "web_viewer/app/package-lock.json",
+        "sha256": "459d6fa8183209d77a7d702c18f4c09acba10337c7775b5b1d7477243a20e5cc",
+        "size_bytes": 81500
+      },
+      {
+        "uri": "generation_pipeline/runtime_environment.lock.json",
+        "sha256": "bc71e9d06361eef85a506149571825c746fabba7a928d57bc73eb4659ddd6757",
+        "size_bytes": 1019
+      },
+      {
+        "uri": "generation_pipeline/requirements-core.txt",
+        "sha256": "8061a188c3b02ee35f51475861bc62156a94f9639b45900c04d81b08e73d554f",
+        "size_bytes": 309
+      },
+      {
+        "uri": "generation_pipeline/requirements-test.txt",
+        "sha256": "d8108fc5fd38a536041d249d8520e423d1557dfb7434765e0246d1a09dd4fe9f",
+        "size_bytes": 494
+      },
+      {
+        "uri": "docker-compose.yml",
+        "sha256": "2e4d9927269bbaff519277c8616cce5cde9b7d7606679626348e36596910b0d3",
+        "size_bytes": 378
+      },
+      {
+        "uri": "services/vlm_model_catalog.py",
+        "sha256": "e276dc62aec99a6a92c3e4c62cef0487557cb2392dae31ad629ea2857f13f927",
+        "size_bytes": 4512
+      }
+    ],
+    "toolchain": {
+      "python": "3.12.3",
+      "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "target_os": "linux",
+      "target_architecture": "x86_64"
+    },
+    "ci": {
+      "provider": "local",
+      "run_id": null,
+      "run_attempt": null,
+      "workflow": null
+    },
+    "oci_images": {
+      "included": false,
+      "digests": [],
+      "reason": "connected_or_source_build"
+    }
+  }
+}

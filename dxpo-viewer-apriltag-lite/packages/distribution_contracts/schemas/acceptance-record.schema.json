@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial.local/schemas/acceptance-record.schema.json",
+  "title": "Spatial Product Acceptance Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "acceptance_id",
+    "release_id",
+    "suite",
+    "suite_profile_version",
+    "target",
+    "dataset",
+    "tests",
+    "required_tests",
+    "missing_or_failed_tests",
+    "result",
+    "created_at",
+    "evidence",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "kind": {"const": "spatial_product_acceptance_record"},
+    "acceptance_id": {"type": "string", "minLength": 1},
+    "release_id": {"type": "string", "minLength": 1},
+    "suite": {"type": "string", "minLength": 1},
+    "suite_profile_version": {"type": "string", "minLength": 1},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os", "architecture", "qualification_target"],
+      "properties": {
+        "os": {"type": "string", "minLength": 1},
+        "architecture": {"type": "string", "minLength": 1},
+        "qualification_target": {"type": "string", "minLength": 1},
+        "gpu": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["vendor"],
+          "properties": {
+            "vendor": {"type": "string", "minLength": 1},
+            "minimum_vram_gb": {"type": ["integer", "null"], "minimum": 1}
+          }
+        }
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_id", "sha256"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "manifest": {"type": "string"}
+      }
+    },
+    "tests": {
+      "type": "object",
+      "additionalProperties": {"enum": ["passed", "failed", "incomplete", "skipped"]}
+    },
+    "required_tests": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "missing_or_failed_tests": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "result": {"enum": ["qualified", "failed", "incomplete", "untested"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "evidence": {"type": "array"},
+    "notes": {"type": ["string", "null"]}
+  }
+}

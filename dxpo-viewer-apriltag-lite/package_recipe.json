@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "20260817-dxpo-viewer-apriltag-lite",
+  "label": "20260817 DXPO Viewer + AprilTag確認（軽量版）",
+  "ui_modules": [
+    "viewer",
+    "apriltag-check"
+  ],
+  "preview_modes": [
+    "packages",
+    "tag-check"
+  ],
+  "backend_components": [
+    "scene-reader-api",
+    "apriltag-api"
+  ],
+  "api_features": [
+    "scene-reader",
+    "apriltag-check"
+  ],
+  "needs_gpu": false,
+  "needs_docker_socket": false,
+  "needs_camera": true,
+  "include_rosbridge": false,
+  "scene_package_ids": [
+    "20260817_DXPO-fixed-rig-spzv4-495a985dfdf1"
+  ],
+  "viewer_variant": "full",
+  "scene_content_mode": "display",
+  "include_active_analysis": false,
+  "product_profile_id": null,
+  "product_profile_version": null,
+  "support_level": "experimental",
+  "release_lifecycle": "draft",
+  "distribution_mode": "offline",
+  "reads": [
+    "bundled verified Scene Packages"
+  ],
+  "writes": []
+}

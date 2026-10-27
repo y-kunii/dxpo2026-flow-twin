@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/scene-dataset-manifest.json",
+  "title": "Portable application dataset embedded in a Scene Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "kind", "status", "scene_id", "reconstruction_id",
+    "scene_package_id", "frame_interval_sec", "artifacts", "provenance"
+  ],
+  "properties": {
+    "schema_version": {"enum": ["1.0.0", "1.1.0"]},
+    "kind": {"const": "spatial_scene_dataset"},
+    "status": {"const": "verified"},
+    "scene_id": {"type": "string"},
+    "reconstruction_id": {"type": "string"},
+    "scene_package_id": {"type": "string"},
+    "frame_interval_sec": {"type": "number", "exclusiveMinimum": 0},
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric_reconstruction", "registered_frames", "person_masks", "colmap", "field_memory"],
+      "properties": {
+        "metric_reconstruction": {"type": "object", "required": ["uri", "manifest_uri", "manifest_sha256"]},
+        "registered_frames": {"type": "object", "required": ["uri", "manifest_uri", "file_count", "source_sha256"]},
+        "person_masks": {"type": "object", "required": ["uri", "file_count", "source_sha256"]},
+        "colmap_masks": {"type": "object", "required": ["uri", "file_count", "source_sha256"]},
+        "reconstruction_masks": {"type": "object", "required": ["uri", "manifest_uri", "file_count", "source_sha256", "convention"]},
+        "mask_generation": {"type": "object", "required": ["report_uri", "report_sha256", "backend", "model", "status"]},
+        "colmap": {"type": "object", "required": ["database_uri", "database_sha256", "text_uri", "text_file_count", "text_sha256", "sparse_uri", "sparse_file_count", "sparse_sha256"]},
+        "field_memory": {"type": "object", "required": ["database_uri", "database_sha256", "content_uri", "content_manifest_uri", "content_manifest_sha256", "content_file_count", "record_counts"]}
+      }
+    },
+    "provenance": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.1.0"}}},
+      "then": {
+        "properties": {
+          "artifacts": {"required": ["colmap_masks", "reconstruction_masks", "mask_generation"]}
+        }
+      }
+    }
+  ]
+}

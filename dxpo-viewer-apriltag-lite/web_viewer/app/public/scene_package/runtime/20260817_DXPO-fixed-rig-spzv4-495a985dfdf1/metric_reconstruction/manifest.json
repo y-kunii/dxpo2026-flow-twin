@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "package_kind": "metric_reconstruction",
+  "scene_id": "20260817_DXPO",
+  "reconstruction_id": "20260817_DXPO-fixed-rig",
+  "source": {
+    "input_video_hash": "ea4fe6f630f8a22f17295368b8ef1d9db5920efe8b42e34761e90dca9f93b7b0",
+    "config_hash": "6526fc1ce154cc8d939948ba4a67ccf7da2525b98857855dd3ceb67566ff93eb",
+    "image_set_id": "d29affe84b6db8f8a295fcc4e8c21648c0a76bfbbbc6646d27d06c73b420a15d",
+    "mask_set_id": "04bfde3c2aa0ad094e48846a16e992748c5cc67a027710c72cc2028deed507d2"
+  },
+  "artifacts": {
+    "images": {
+      "uri": "images",
+      "manifest_uri": "images/manifest.json",
+      "sha256": "afd689e131a6bd9bded0d2d186f4bc520142e1f7d30791bd5e85ac2f99fd8503"
+    },
+    "masks": {
+      "uri": "masks",
+      "manifest_uri": "masks/manifest.json",
+      "sha256": "058ec1f5a4dada402f26f49f738c34f96162848a64df374ac435664f290117a8"
+    },
+    "rig_config_uri": "rig_config.json",
+    "rig_config_sha256": "e174327f4316587751030f65ae92cf9654e6891681e0a13ec7bd00b578a6a4fd",
+    "sfm": {
+      "sparse_uri": "colmap/sparse",
+      "text_uri": "colmap/text",
+      "model_sha256": "bdc0fef034818e174891cf7b1e7ef3db48fcbd3e0a27b4a726656ba34c3ade1c",
+      "sparse_model_sha256": "7d24484b71cc4278835b04e4a49cafe5e03a03983014938938e7c5ff8b85ea86"
+    },
+    "world_alignment": {
+      "uri": "config/world_alignment.json",
+      "sha256": "e2735ced93fb922cd4f3c3804e3051653531bc88bf4a2e1fb6075405558ebf90"
+    },
+    "camera_trajectory": {
+      "uri": "camera_trajectory.json",
+      "sha256": "61cf50c68b251e57788ddea18ae0b96ab239a7c1712c0f07441c310da91a1a56"
+    },
+    "quality": {
+      "input_uri": "quality/input_quality.json",
+      "input_sha256": "ec2ef556a56b1ee991e5b68d06337ee0c79a40e575a79a7577de0ae80e19f288",
+      "mask_uri": "quality/mask_quality.json",
+      "mask_sha256": "16ee85bf424c13a6094c00f2e009f28be0a0b93d300da10586f1597676e9ac92",
+      "sfm_uri": "quality/sfm_quality.json",
+      "sfm_sha256": "c523b68d25c1973d696897dc681d1bf786dddae1c8b23533a440cb57f7ad7e15",
+      "metric_uri": "quality/metric_quality.json",
+      "metric_sha256": "19f0f5fd31ae3ed3255f9f048994794970fd7aa98cfeef90fe0bb79a60608df7"
+    },
+    "lfs_input": {
+      "uri": "lfs_input",
+      "manifest_uri": "lfs_input/manifest.json",
+      "sha256": "ae79ecae05cf009031a094759c54c1b2ac51cd15ead54be99cd276dd16795302"
+    }
+  },
+  "coordinate": {
+    "stage": "horizontalized_colmap",
+    "unit": "meter",
+    "up_axis": "Y"
+  },
+  "created_at": "2026-08-17T14:57:03.018086+00:00",
+  "tool_versions": {
+    "exporter": "metric_reconstruction_package_exporter/1.0.0",
+    "colmap": "COLMAP",
+    "person_mask": "IDEA-Research/grounding-dino-base+facebook/sam2.1-hiera-large:2.7.1+cu128"
+  },
+  "provenance": {
+    "input_quality_uri": "quality/input_quality.json",
+    "mask_quality_uri": "quality/mask_quality.json",
+    "sfm_quality_uri": "quality/sfm_quality.json",
+    "metric_quality_uri": "quality/metric_quality.json",
+    "external_lfs_stage": true,
+    "source_workspace_included": false,
+    "portable_package_uri": "package://dataset/metric_reconstruction"
+  }
+}

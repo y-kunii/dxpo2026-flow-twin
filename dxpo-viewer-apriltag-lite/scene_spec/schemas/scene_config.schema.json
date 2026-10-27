@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/scene-config-1.0.0.json",
+  "title": "Spatial 3DGS scene configuration",
+  "type": "object",
+  "required": [
+    "schema_version", "scene_id", "input_video", "workspace",
+    "virtual_rig", "sfm", "person_mask", "metric_marker", "execution", "reuse"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "scene_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$", "maxLength": 64},
+    "scene_template_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$", "maxLength": 64},
+    "reconstruction_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$", "maxLength": 128},
+    "input_projection": {"enum": ["equirectangular_360", "perspective"]},
+    "input_video": {"type": "string"},
+    "workspace": {"type": "string"},
+    "scene_package_output": {"type": "string"},
+    "viewer_publish_output": {"type": "string"},
+    "preprocessing": {"type": "object", "properties": {"frame_interval_sec": {"type": "number", "exclusiveMinimum": 0}, "panoramas": {"type": "string"}}},
+    "person_mask": {
+      "type": "object",
+      "required": ["config", "static_masks", "person_masks", "colmap_masks", "report"],
+      "properties": {
+        "config": {"type": "string"},
+        "static_masks": {"type": "string"},
+        "person_masks": {"type": "string"},
+        "colmap_masks": {"type": "string"},
+        "report": {"type": "string"},
+        "model_asset": {"type": "string"},
+        "docker_image": {"type": "string"}
+      }
+    },
+    "virtual_rig": {"type": "object", "required": ["profile", "config"]},
+    "sfm": {"type": "object", "required": ["profile", "model", "manifest", "images", "masks", "rig_config"]},
+    "gsplat": {"type": "object", "required": ["profile", "spz", "manifest"]},
+    "metric_marker": {"type": "object", "required": ["family", "id", "size_m", "accepted_selection_policy", "world_alignment", "corners_world"]},
+    "dense": {"type": "object", "required": ["profile", "workspace", "config", "world_alignment"]},
+    "proxy": {"type": "object", "required": ["mode", "config"]},
+    "execution": {"type": "object", "required": ["profile"], "properties": {"profile": {"enum": ["fast", "quality", "auto"]}, "profiles": {"type": "object"}}},
+    "reuse": {"type": "object", "required": ["person_mask", "sfm"]},
+    "build": {"type": "object", "required": ["working_directory", "command"]}
+  },
+  "additionalProperties": false
+}

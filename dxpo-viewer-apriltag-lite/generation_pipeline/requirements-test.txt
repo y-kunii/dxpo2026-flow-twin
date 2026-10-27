@@ -1,0 +1,10 @@
+# Deterministic dependencies used by the source-checkout contract tests.
+-r requirements-core.txt
+# Starlette 1.x uses HTTPX2 for its in-process ASGI TestClient.
+httpx2==2.7.0
+# Pytest collects both legacy unittest.TestCase suites and the newer
+# function/fixture-based Product and service contract tests.
+pytest==8.3.5
+# Product Profile, Product Release, and target-scoped Acceptance schemas are
+# validated in contract tests instead of being treated as documentation only.
+jsonschema==4.25.1

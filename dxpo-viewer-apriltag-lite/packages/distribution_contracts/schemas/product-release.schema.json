@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial.local/schemas/product-release.schema.json",
+  "title": "Spatial Product Release",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "release_id", "product", "lifecycle", "created_at", "provenance", "inputs", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "kind": {"const": "spatial_product_release"},
+    "release_id": {"type": "string", "minLength": 1},
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "profile_version", "runtime_version", "build_id"],
+      "properties": {
+        "profile_id": {"type": ["string", "null"]},
+        "profile_version": {"type": ["string", "null"]},
+        "runtime_version": {"type": "string", "minLength": 1},
+        "build_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "lifecycle": {"enum": ["draft", "candidate", "qualified", "released", "superseded", "quarantined", "revoked"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "provenance": {"type": "object"},
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scene_packages", "analysis_overlay", "model_catalog"],
+      "properties": {
+        "scene_packages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["scene_package_id", "scene_manifest_sha256"],
+            "properties": {
+              "scene_package_id": {"type": "string", "minLength": 1},
+              "scene_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          }
+        },
+        "analysis_overlay": {
+          "type": ["object", "null"]
+        },
+        "model_catalog": {
+          "type": ["object", "null"]
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["kind", "path", "sha256", "size_bytes"],
+        "properties": {
+          "kind": {"enum": ["runtime_bundle", "scene_content_pack"]},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "lifecycle_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "actor", "reason", "created_at"],
+        "properties": {
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "actor": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}

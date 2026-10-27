@@ -1,0 +1,22 @@
+{
+  "api_version": "spatial.product/v1",
+  "kind": "ProductProfile",
+  "metadata": {"id": "field-operations", "version": "0.1.0", "label": "Field Operations", "tier": "tier-1"},
+  "composition": {
+    "ui_modules": ["field-memory", "site-insights"],
+    "backend_components": ["field-memory-api", "search-api", "image-feature-worker", "evidence-ai-api", "frame-vlm-worker", "change-review-api"],
+    "viewer_variant": "full"
+  },
+  "features": {"required": ["scene-viewing", "field-memory", "site-insights", "grounded-inquiry", "human-reviewed-change", "inspection-records"], "optional": ["image-similarity-search"]},
+  "content": {
+    "minimum_scene_packages": 1,
+    "maximum_scene_packages": 8,
+    "required_scene_capabilities": ["display"],
+    "include_active_analysis": false
+  },
+  "platforms": {"supported_targets": ["linux-x86_64"], "qualification_targets": ["linux-x86_64"], "planned": ["windows-x86_64", "android-arm64"]},
+  "permissions": {"scene": "read", "site_records": "read-write", "repository_admin": false},
+  "distribution": {"modes": ["split", "offline"], "planned_modes": ["connected"], "default_mode": "split"},
+  "support": {"policy": "internal-product-support-v1", "diagnostic_bundle": true, "overlay_backup_restore": true, "state_transfer": true},
+  "acceptance": {"suite": "field-operations-v1", "required": ["contract", "viewer", "inspection-workflow", "grounded-inquiry", "change-audit", "report-export", "offline-install", "recovery"]}
+}

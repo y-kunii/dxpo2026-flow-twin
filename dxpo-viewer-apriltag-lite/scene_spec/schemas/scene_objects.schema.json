@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/scene-objects-1.0.0.json",
+  "title": "Spatial 3DGS persistent scene objects",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scene_id", "coordinate_space", "unit", "up_axis", "objects"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "scene_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "coordinate_space": {"const": "world"},
+    "unit": {"const": "meter"},
+    "up_axis": {"const": "+Y"},
+    "objects": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/object"}
+    }
+  },
+  "$defs": {
+    "finiteNumber": {"type": "number"},
+    "vector3": {
+      "type": "array",
+      "prefixItems": [{"$ref": "#/$defs/finiteNumber"}, {"$ref": "#/$defs/finiteNumber"}, {"$ref": "#/$defs/finiteNumber"}],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "quaternion": {
+      "type": "array",
+      "prefixItems": [{"$ref": "#/$defs/finiteNumber"}, {"$ref": "#/$defs/finiteNumber"}, {"$ref": "#/$defs/finiteNumber"}, {"$ref": "#/$defs/finiteNumber"}],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "common": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "name", "enabled", "position", "quaternion", "created_at", "updated_at"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+        "type": {"enum": ["camera", "person"]},
+        "name": {"type": "string", "minLength": 1},
+        "enabled": {"type": "boolean"},
+        "position": {"$ref": "#/$defs/vector3"},
+        "quaternion": {"$ref": "#/$defs/quaternion"},
+        "created_at": {"type": "string"},
+        "updated_at": {"type": "string"},
+        "camera": {"$ref": "#/$defs/camera"},
+        "person": {"$ref": "#/$defs/person"}
+      }
+    },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mount_surface_type", "mount_surface_normal", "surface_offset_m", "vertical_fov_deg", "resolution", "frustum_visible"],
+      "properties": {
+        "mount_surface_type": {"enum": ["floor", "wall", "ceiling", "free"]},
+        "mount_surface_normal": {"$ref": "#/$defs/vector3"},
+        "surface_offset_m": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_fov_deg": {"type": "number", "exclusiveMinimum": 1, "exclusiveMaximum": 179},
+        "resolution": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}], "items": false, "minItems": 2, "maxItems": 2},
+        "near_m": {"type": "number", "exclusiveMinimum": 0},
+        "far_m": {"type": "number", "exclusiveMinimum": 0},
+        "frustum_visible": {"type": "boolean"},
+        "free_placement": {"type": "boolean"}
+      }
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["height_m", "yaw_deg", "front_direction", "target_type"],
+      "properties": {
+        "height_m": {"type": "number", "exclusiveMinimum": 0},
+        "yaw_deg": {"type": "number"},
+        "front_direction": {"$ref": "#/$defs/vector3"},
+        "target_type": {"enum": ["torso", "head"]}
+      }
+    },
+    "object": {
+      "allOf": [{"$ref": "#/$defs/common"}],
+      "oneOf": [
+        {"properties": {"type": {"const": "camera"}, "camera": {"type": "object"}, "person": {"type": "null"}}, "required": ["camera"]},
+        {"properties": {"type": {"const": "person"}, "camera": {"type": "null"}, "person": {"type": "object"}}, "required": ["person"]}
+      ]
+    }
+  }
+}

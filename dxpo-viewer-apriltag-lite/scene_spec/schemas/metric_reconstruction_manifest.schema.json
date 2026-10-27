@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/metric-reconstruction-manifest-1.0.0.json",
+  "title": "Metric Reconstruction Package manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "package_kind",
+    "scene_id",
+    "reconstruction_id",
+    "source",
+    "artifacts",
+    "coordinate",
+    "created_at",
+    "tool_versions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "package_kind": {"const": "metric_reconstruction"},
+    "scene_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "reconstruction_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "source": {
+      "type": "object",
+      "required": ["input_video_hash", "config_hash", "image_set_id", "mask_set_id"],
+      "properties": {
+        "input_video_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "config_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "image_set_id": {"type": "string"},
+        "mask_set_id": {"type": "string"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["images", "masks", "rig_config_uri", "rig_config_sha256", "sfm", "world_alignment", "camera_trajectory", "quality", "lfs_input"],
+      "properties": {
+        "images": {"type": "object", "required": ["uri", "manifest_uri", "sha256"]},
+        "masks": {"type": "object", "required": ["uri", "manifest_uri", "sha256"]},
+        "rig_config_uri": {"type": "string"},
+        "rig_config_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "sfm": {"type": "object", "required": ["sparse_uri", "text_uri", "model_sha256"]},
+        "world_alignment": {"type": "object", "required": ["uri", "sha256"]},
+        "camera_trajectory": {"type": "object", "required": ["uri", "sha256"]},
+        "quality": {"type": "object", "required": ["input_uri", "input_sha256", "mask_uri", "mask_sha256", "sfm_uri", "sfm_sha256", "metric_uri", "metric_sha256"]},
+        "lfs_input": {"type": "object", "required": ["uri", "manifest_uri", "sha256"]}
+      }
+    },
+    "coordinate": {
+      "type": "object",
+      "required": ["stage", "unit", "up_axis"],
+      "properties": {
+        "stage": {"type": "string", "enum": ["horizontalized_colmap", "world_meter"]},
+        "unit": {"const": "meter"},
+        "up_axis": {"const": "Y"}
+      }
+    },
+    "created_at": {"type": "string"},
+    "tool_versions": {"type": "object"},
+    "provenance": {
+      "type": "object",
+      "required": ["source_workspace_uri", "input_quality_uri", "mask_quality_uri", "sfm_quality_uri", "metric_quality_uri"],
+      "properties": {
+        "source_workspace_uri": {"type": "string"},
+        "input_quality_uri": {"type": "string"},
+        "mask_quality_uri": {"type": "string"},
+        "sfm_quality_uri": {"type": "string"},
+        "metric_quality_uri": {"type": "string"},
+        "external_lfs_stage": {"type": "boolean"}
+      }
+    }
+  },
+  "additionalProperties": false
+}

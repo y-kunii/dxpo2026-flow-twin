@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/fixed-tag-map-1.0.0.json",
+  "title": "Fixed AprilTag to gs_world map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "coordinate_frame", "unit", "rotation_order", "frames"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "coordinate_frame": {"const": "gs_world"},
+    "unit": {"const": "meter"},
+    "rotation_order": {"const": "xyzw"},
+    "frames": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/transform"
+      }
+    }
+  },
+  "$defs": {
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["translation_m", "rotation_xyzw"],
+      "properties": {
+        "translation_m": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false},
+        "rotation_xyzw": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false}
+      }
+    }
+  }
+}

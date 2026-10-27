@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs.local/schemas/phase9_acceptance_report.schema.json",
+  "title": "Phase 9 Acceptance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "status",
+    "scope",
+    "subject",
+    "environment",
+    "stages",
+    "summary",
+    "public_release_gate"
+  ],
+  "properties": {
+    "schema_version": {"const": "phase9-acceptance-report-v1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["verified", "incomplete", "failed"]},
+    "scope": {"const": "representative-real-data-end-to-end"},
+    "subject": {
+      "type": "object",
+      "required": ["scene_package_id", "project_id", "scene_id", "reconstruction_id"]
+    },
+    "environment": {
+      "type": "object",
+      "required": ["repository_root", "git_commit", "git_worktree_clean", "git_status", "python", "platform"]
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "summary", "evidence"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["verified", "incomplete", "failed", "not_applicable"]},
+          "summary": {"type": "string", "minLength": 1},
+          "evidence": {"type": "object"}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["verified", "incomplete", "failed"]
+    },
+    "public_release_gate": {
+      "type": "object",
+      "required": ["status", "reasons", "note"],
+      "properties": {
+        "status": {"enum": ["verified", "blocked"]},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}

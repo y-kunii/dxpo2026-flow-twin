@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/dynamic-objects-1.0.0.json",
+  "title": "Optional dynamic object overrides for AprilTag tracking",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "coordinate_frame", "unit", "rotation_order", "objects"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "coordinate_frame": {"const": "gs_world"},
+    "unit": {"const": "meter"},
+    "rotation_order": {"const": "xyzw"},
+    "objects": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/object"}
+    }
+  },
+  "$defs": {
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["translation_m", "rotation_xyzw"],
+      "properties": {
+        "translation_m": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false},
+        "rotation_xyzw": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false}
+      }
+    },
+    "box_dimensions": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width_m", "depth_m", "height_m"],
+          "properties": {
+            "width_m": {"type": "number", "exclusiveMinimum": 0},
+            "depth_m": {"type": "number", "exclusiveMinimum": 0},
+            "height_m": {"type": "number", "exclusiveMinimum": 0}
+          }
+        },
+        {
+          "type": "array",
+          "prefixItems": [
+            {"type": "number", "exclusiveMinimum": 0},
+            {"type": "number", "exclusiveMinimum": 0},
+            {"type": "number", "exclusiveMinimum": 0}
+          ],
+          "items": false
+        }
+      ]
+    },
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^box_0*[1-9][0-9]*$"},
+        "box_tag_frame": {"type": "string", "pattern": "^apriltag_tag25h9_[0-9]+$"},
+        "model": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["uri", "format", "sha256"],
+              "properties": {
+                "uri": {"type": "string"},
+                "format": {"const": "glb"},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["format", "dimensions_m"],
+              "properties": {
+                "format": {"const": "cube"},
+                "dimensions_m": {"$ref": "#/$defs/box_dimensions"},
+                "color_hex": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"}
+              }
+            }
+          ]
+        },
+        "box_tag_to_object": {"$ref": "#/$defs/transform"},
+        "object_to_render": {"$ref": "#/$defs/transform"},
+        "timeout_ms": {"type": "number", "exclusiveMinimum": 0},
+        "max_translation_jump_m": {"type": "number", "exclusiveMinimum": 0},
+        "max_rotation_jump_deg": {"type": "number", "exclusiveMinimum": 0}
+      }
+    }
+  }
+}

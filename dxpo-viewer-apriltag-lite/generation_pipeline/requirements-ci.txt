@@ -1,0 +1,11 @@
+-r requirements-test.txt
+# CI-only supply-chain audit tool. Runtime and application distributions do
+# not carry this dependency.
+pip-audit==2.10.1
+# Undefined names and dead imports are release gates. Keep the same version as
+# the repository pre-commit hook so local and CI results cannot drift.
+ruff==0.9.10
+# Typed contract boundaries are checked incrementally; see mypy.ini.
+mypy==2.3.0
+# Branch coverage is a non-regression gate, not a claim of complete testing.
+coverage==7.15.2

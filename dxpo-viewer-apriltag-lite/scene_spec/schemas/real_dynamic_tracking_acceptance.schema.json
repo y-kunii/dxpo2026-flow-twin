@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "real_dynamic_tracking_acceptance.schema.json",
+  "title": "Real dynamic tracking acceptance evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "created_at", "status", "failure_reasons", "real_hardware", "topic", "rosbridge_url", "camera_id", "sender_host", "viewer_url", "expected_boxes", "contract", "recording", "visual_confirmation"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["verified", "automated_contract_verified", "failed"] },
+    "failure_reasons": { "type": "array", "items": { "type": "string" } },
+    "real_hardware": { "const": true },
+    "topic": { "const": "/box/relative_transform" },
+    "rosbridge_url": { "type": "string", "pattern": "^wss?://" },
+    "camera_id": { "type": "string", "minLength": 1 },
+    "sender_host": { "type": "string", "minLength": 1 },
+    "viewer_url": { "type": "string", "minLength": 1 },
+    "expected_boxes": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^box_0*[1-9][0-9]*$" },
+    "contract": { "type": "object" },
+    "recording": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": { "path": { "type": "string" }, "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" } }
+    },
+    "visual_confirmation": {
+      "type": "object",
+      "required": ["operator_confirmed", "screenshot", "sha256"],
+      "properties": {
+        "operator_confirmed": { "type": "boolean" },
+        "screenshot": { "type": ["string", "null"] },
+        "sha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
+  }
+}

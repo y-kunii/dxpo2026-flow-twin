@@ -1,0 +1,10 @@
+* text=auto
+*.sh text eol=lf
+*.py text eol=lf
+*.ts text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+web_viewer/app/public/scene_package/runtime/20260817_DXPO-fixed-rig-spzv4-495a985dfdf1/splats/20260817_DXPO.spz filter=lfs diff=lfs merge=lfs -text

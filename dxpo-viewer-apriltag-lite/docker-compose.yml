@@ -1,0 +1,82 @@
+services:
+  application-api:
+    restart: unless-stopped
+    image: spatial-3dgs-system-generation:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.generation
+    working_dir: /workspace
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    command: ["python3", "-m", "services.control_api", "--repo-root", "/workspace", "--host", "0.0.0.0", "--port", "8788", "--features", "scene-reader,apriltag-check"]
+    environment:
+      HOME: /tmp
+      LOCAL_UID: "${LOCAL_UID:-1000}"
+      LOCAL_GID: "${LOCAL_GID:-1000}"
+      APP_PREVIEW_MIN_FREE_BYTES: "${APP_PREVIEW_MIN_FREE_BYTES:-5368709120}"
+      APP_PREVIEW_UPLOAD_RETENTION_DAYS: "${APP_PREVIEW_UPLOAD_RETENTION_DAYS:-30}"
+      APP_PREVIEW_PACKAGE_RETENTION_DAYS: "${APP_PREVIEW_PACKAGE_RETENTION_DAYS:-14}"
+      APP_PREVIEW_STAGING_RETENTION_HOURS: "${APP_PREVIEW_STAGING_RETENTION_HOURS:-24}"
+      APP_PREVIEW_MAX_DERIVED_PACKAGES: "${APP_PREVIEW_MAX_DERIVED_PACKAGES:-20}"
+      SPATIAL_CONTROL_TOKEN: "${SPATIAL_CONTROL_TOKEN:-}"
+      SPATIAL_LOCAL_VLM_MODEL: /workspace/models/local-vlm
+      SPATIAL_VLM_MODEL_STORE: /workspace/models
+      SPATIAL_ALLOWED_ORIGINS: "${SPATIAL_ALLOWED_ORIGINS:-}"
+      SPATIAL_RBAC_REQUIRED: "${SPATIAL_RBAC_REQUIRED:-0}"
+      PYTHONDONTWRITEBYTECODE: "1"
+    volumes:
+      - ./:/workspace:ro
+      - ./data:/workspace/data
+      - ./state/site-records:/workspace/data/scene_repository/registries/site_records
+      - ./var/spatial:/workspace/var/spatial
+      - ./models:/workspace/models
+      - ./web_viewer/app/public/scene_package:/workspace/web_viewer/app/public/scene_package:ro
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8788/api/health', timeout=2).read()"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  app:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web-viewer
+    working_dir: /workspace
+    command: ["sh", "docker/start_spatial_app.sh"]
+    environment:
+      SPATIAL_APP_TARGET: custom
+      SPATIAL_APP_MODES: "packages,tag-check"
+      SPATIAL_APP_LABEL: "20260817 DXPO Viewer + AprilTag確認（軽量版）"
+      SPATIAL_VIEWER_VARIANT: "full"
+      SPATIAL_DEFAULT_SCENE_PACKAGE: "20260817_DXPO-fixed-rig-spzv4-495a985dfdf1"
+      LOCAL_UID: "${LOCAL_UID:-1000}"
+      LOCAL_GID: "${LOCAL_GID:-1000}"
+      SPATIAL_CONTROL_API_URL: http://application-api:8788
+      SPATIAL_CONTROL_TOKEN: "${SPATIAL_CONTROL_TOKEN:-}"
+      SPATIAL_RBAC_REQUIRED: "${SPATIAL_RBAC_REQUIRED:-0}"
+      SPATIAL_ACTOR_ID: "${SPATIAL_ACTOR_ID:-}"
+      SPATIAL_ACTOR_ROLE: "${SPATIAL_ACTOR_ROLE:-}"
+      SPATIAL_SITE_ID: "${SPATIAL_SITE_ID:-}"
+      SCENE_PACKAGE_INDEX_READ_ONLY: "1"
+    volumes:
+      - ./:/workspace:ro
+      - ./web_viewer/app/public/scene_package:/workspace/web_viewer/app/public/scene_package:ro
+      - app_node_modules:/workspace/web_viewer/app/node_modules
+    ports:
+      - "${APP_BIND_ADDRESS:-127.0.0.1}:${APP_PORT:-8080}:5173"
+    depends_on:
+      application-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5173').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+
+
+
+volumes:
+  app_node_modules:

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/scene-manifest-1.0.0.json",
+  "title": "Spatial 3DGS Scene Package manifest",
+  "type": "object",
+  "required": ["schema_version", "scene_id", "unit", "coordinate_system", "assets", "configs", "annotations"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "scene_id": {"type": "string"},
+    "unit": {"const": "meter"},
+    "coordinate_system": {
+      "type": "object",
+      "required": ["right_axis", "up_axis", "forward_axis"],
+      "properties": {"right_axis": {"const": "X"}, "up_axis": {"const": "Y"}, "forward_axis": {"const": "Z"}}
+    },
+    "assets": {"type": "object", "required": ["splats", "proxy_mesh"]},
+    "configs": {"type": "object", "required": ["world_alignment", "camera_presets", "lens_presets", "mount_candidates"]},
+    "annotations": {"type": "object", "required": ["measurements", "visibility_results", "apriltag_corners_world"]}
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "backend": "grounding_dino_sam2",
+  "model": {
+    "detector": "IDEA-Research/grounding-dino-base",
+    "detector_revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+    "segmenter": "facebook/sam2.1-hiera-large",
+    "segmenter_revision": "665f8e2ad61cf5f53d65644ff27c8ee525124610",
+    "license": "Apache-2.0",
+    "runtime_package": "transformers",
+    "runtime_version": "5.14.1"
+  },
+  "prompt": "person.",
+  "box_threshold": 0.35,
+  "text_threshold": 0.2,
+  "nms_threshold": 0.5,
+  "mask_margin_px": 12,
+  "mask_convention": {
+    "person_mask_white": "predicted person pixels",
+    "person_mask_black": "predicted non-person pixels",
+    "colmap_mask_white": "pixels retained by COLMAP and LichtFeld Studio input",
+    "colmap_mask_black": "predicted person pixels only"
+  },
+  "quality_gate": {
+    "minimum_image_count": 1,
+    "minimum_candidate_image_ratio": 0.0,
+    "large_mask_review_ratio": 0.75,
+    "minimum_large_mask_score": 0.5,
+    "maximum_person_coverage_ratio": 0.9,
+    "maximum_rejected_mask_ratio": 0.01,
+    "minimum_box_score": 0.35
+  }
+}

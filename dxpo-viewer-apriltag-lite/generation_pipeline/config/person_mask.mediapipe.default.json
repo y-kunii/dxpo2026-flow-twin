@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "backend": "mediapipe_image_segmenter",
+  "model": {
+    "name": "mediapipe_selfie_segmenter_float16",
+    "version": "1",
+    "license": "Apache-2.0",
+    "runtime_package": "mediapipe",
+    "runtime_version": "0.10.35",
+    "model_asset_path": "/opt/models/selfie_segmenter.tflite",
+    "model_asset_url": "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/1/selfie_segmenter.tflite",
+    "model_asset_sha256": "191ac9529ae506ee0beefa6b2c945a172dab9d07d1e802a290a4e4038226658b",
+    "person_confidence_mask_index": 0
+  },
+  "confidence_threshold": 0.5,
+  "mask_convention": {
+    "person_mask_white": "predicted person pixels",
+    "person_mask_black": "predicted non-person pixels",
+    "colmap_mask_white": "pixels retained by COLMAP and LichtFeld Studio input",
+    "colmap_mask_black": "predicted person pixels only"
+  },
+  "quality_gate": {
+    "minimum_image_count": 1,
+    "maximum_person_coverage_ratio": 0.98
+  }
+}
