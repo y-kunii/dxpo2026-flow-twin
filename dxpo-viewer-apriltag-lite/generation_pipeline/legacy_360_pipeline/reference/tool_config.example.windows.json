@@ -1,0 +1,9 @@
+﻿{
+    "root":  "C:\\path\\to\\legacy_3dgs",
+    "projects":  "C:\\path\\to\\legacy_3dgs\\projects",
+    "colmap_bat":  "C:\\path\\to\\legacy_3dgs\\COLMAP\\COLMAP.bat",
+    "ffmpeg":  "C:\\path\\to\\ffmpeg\\bin\\ffmpeg.exe",
+    "runner":  "C:\\path\\to\\legacy_3dgs\\scripts\\Run-360RigSfM.ps1",
+    "quality_profile":  "360-overlapping-fixed-rig",
+    "colmap_version":  "4.1.0 CUDA"
+}

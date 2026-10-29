@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/dynamic-objects-v1.2.0.json",
+  "title": "Dynamic object annotations for immutable Scene Package v1.2",
+  "description": "Extends the read-compatible dynamic object schema while forbidding object-owned freshness. v1.2 freshness is dynamic_overlay.freshness.timeout_ms only.",
+  "allOf": [
+    {"$ref": "dynamic_objects.schema.json"},
+    {
+      "type": "object",
+      "properties": {
+        "objects": {
+          "type": "array",
+          "items": {
+            "not": {"required": ["timeout_ms"]}
+          }
+        }
+      }
+    }
+  ]
+}

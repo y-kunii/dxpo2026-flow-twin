@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/scene-manifest-1.1.0.json",
+  "title": "Spatial analysis Scene Package manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scene_id",
+    "reconstruction_id",
+    "unit",
+    "coordinate_system",
+    "metric_reconstruction",
+    "assets",
+    "configs",
+    "annotations",
+    "capabilities",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "scene_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "reconstruction_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "unit": {"const": "meter"},
+    "coordinate_system": {
+      "type": "object",
+      "required": ["right_axis", "up_axis", "forward_axis"],
+      "properties": {"right_axis": {"const": "X"}, "up_axis": {"const": "Y"}, "forward_axis": {"const": "Z"}}
+    },
+    "metric_reconstruction": {"type": "object", "required": ["manifest_uri", "manifest_sha256"]},
+    "assets": {
+      "type": "object",
+      "required": ["splats", "proxy_mesh"],
+      "properties": {
+        "splats": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "uri", "source_format", "runtime_format", "sha256", "coordinate_stage"]
+          }
+        },
+        "proxy_mesh": {"type": ["object", "null"]}
+      }
+    },
+    "configs": {"type": "object", "required": ["world_alignment", "camera_presets", "lens_presets", "mount_candidates"]},
+    "annotations": {
+      "type": "object",
+      "required": ["measurements", "visibility_results"],
+      "properties": {
+        "measurements": {"type": "string"},
+        "visibility_results": {"type": "string"},
+        "apriltag_corners_world": {"type": "string"},
+        "scene_objects": {"type": "string"},
+        "fixed_tag_map": {"type": "string"},
+        "dynamic_objects": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "capabilities": {"type": "object", "required": ["display", "measurement", "surface_placement", "fov", "occlusion"]},
+    "provenance": {
+      "type": "object",
+      "required": ["gaussian", "coordinate_stage"],
+      "properties": {
+        "gaussian": {"type": "object", "required": ["source_format", "source_sha256", "runtime_format", "runtime_sha256"]},
+        "coordinate_stage": {"type": "string", "enum": ["raw_lfs", "horizontalized_lfs", "viewer_ready", "world_meter"]}
+      }
+    }
+  },
+  "additionalProperties": false
+}

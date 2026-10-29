@@ -1,0 +1,22 @@
+{
+  "api_version": "spatial.product/v1",
+  "kind": "ProductProfile",
+  "metadata": {"id": "viewer-lite", "version": "0.1.0", "label": "Viewer Lite", "tier": "tier-1"},
+  "composition": {
+    "ui_modules": ["simple-viewer"],
+    "backend_components": ["scene-reader-api"],
+    "viewer_variant": "simple"
+  },
+  "features": {"required": ["scene-viewing", "measurement", "surface-placement"], "optional": []},
+  "content": {
+    "minimum_scene_packages": 1,
+    "maximum_scene_packages": 1,
+    "required_scene_capabilities": ["display", "measurement", "surface_placement"],
+    "include_active_analysis": false
+  },
+  "platforms": {"supported_targets": ["linux-x86_64"], "qualification_targets": ["linux-x86_64"], "planned": ["windows-x86_64", "android-arm64"]},
+  "permissions": {"scene": "read", "site_records": "none", "repository_admin": false},
+  "distribution": {"modes": ["split", "offline"], "planned_modes": ["connected"], "default_mode": "split"},
+  "support": {"policy": "internal-product-support-v1", "diagnostic_bundle": true, "overlay_backup_restore": true, "state_transfer": true},
+  "acceptance": {"suite": "viewer-lite-v1", "required": ["contract", "viewer", "offline-install", "recovery"]}
+}

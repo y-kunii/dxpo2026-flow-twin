@@ -1,0 +1,57 @@
+{
+  "unit": "meter",
+  "status": "verified",
+  "method": "apriltag_triangulated_corners",
+  "generated_to_world": {
+    "scale": 0.9065493454633762,
+    "rotation_quaternion_xyzw": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "translation_m": [
+      0,
+      0,
+      0
+    ]
+  },
+  "quality": {
+    "tag_count": 1,
+    "scale_values": [
+      0.9065493454633762
+    ],
+    "scale_median": 0.9065493454633762,
+    "missing_marker_definitions": 1,
+    "incomplete_tags": 0,
+    "triangulated_corner_count": 8
+  },
+  "tag_estimates": [
+    {
+      "family": "tag25h9",
+      "id": 0,
+      "size_m": 0.1,
+      "side_lengths_colmap": [
+        0.11104530646351886,
+        0.10974579926407119,
+        0.1108682594173631,
+        0.10957420035449894
+      ],
+      "mean_size_colmap": 0.11030839137486302,
+      "scale": 0.9065493454633762,
+      "observation_count_per_corner": {
+        "0": 62,
+        "1": 63,
+        "2": 64,
+        "3": 62
+      },
+      "mean_ray_distance_colmap_per_corner": {
+        "0": 0.004668602298706707,
+        "1": 0.005378665704983576,
+        "2": 0.005642394747306899,
+        "3": 0.004406554046867154
+      }
+    }
+  ],
+  "notes": "Scale estimated from triangulated AprilTag corners."
+}

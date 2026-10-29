@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "spatial_3dgs_viewer_distribution_index",
+  "packages": [
+    {
+      "managed": true,
+      "published": true,
+      "status": "verified",
+      "project_id": "20260817_DXPO",
+      "scene_package_id": "20260817_DXPO-fixed-rig-spzv4-495a985dfdf1",
+      "scene_id": "20260817_DXPO",
+      "reconstruction_id": "20260817_DXPO-fixed-rig",
+      "viewer_url": "/?scene_package=20260817_DXPO-fixed-rig-spzv4-495a985dfdf1",
+      "spz": {
+        "filename": "20260817_DXPO.spz"
+      },
+      "capabilities": {
+        "display": true,
+        "measurement": false,
+        "surface_placement": false,
+        "fov": false,
+        "occlusion": false
+      }
+    }
+  ]
+}

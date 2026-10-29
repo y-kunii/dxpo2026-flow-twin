@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spatial-3dgs-system.local/schema/scene-manifest-1.2.0.json",
+  "title": "Immutable Spatial Scene Package manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "project_id", "scene_id", "scene_package_id", "reconstruction_id",
+    "unit", "coordinate_system", "dynamic_overlay", "metric_reconstruction", "assets",
+    "configs", "annotations", "licenses", "capabilities", "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.2.0"},
+    "project_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "scene_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "scene_package_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "reconstruction_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "project_name": {"type": "string"},
+    "unit": {"const": "meter"},
+    "coordinate_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["right_axis", "up_axis", "forward_axis", "ros", "viewer", "T_viewer_ros"],
+      "properties": {
+        "right_axis": {"const": "X"}, "up_axis": {"const": "Y"}, "forward_axis": {"const": "Z"},
+        "ros": {"$ref": "#/$defs/axis_contract"},
+        "viewer": {"$ref": "#/$defs/axis_contract"},
+        "T_viewer_ros": {"$ref": "#/$defs/transform"}
+      }
+    },
+    "dynamic_overlay": {
+      "type": "object", "additionalProperties": false,
+      "required": ["topic", "freshness"],
+      "properties": {
+        "topic": {"const": "/box/relative_transform"},
+        "freshness": {
+          "type": "object", "additionalProperties": false,
+          "required": ["timeout_ms", "on_timeout", "ordering"],
+          "properties": {
+            "timeout_ms": {"type": "number", "exclusiveMinimum": 0},
+            "on_timeout": {"const": "hide"},
+            "ordering": {"const": "ros_stamp"}
+          }
+        }
+      }
+    },
+    "metric_reconstruction": {"type": "object", "required": ["manifest_uri", "manifest_sha256"]},
+    "assets": {"type": "object", "required": ["splats", "proxy_mesh"]},
+    "configs": {"type": "object", "required": ["world_alignment", "camera_presets"]},
+    "annotations": {
+      "type": "object",
+      "required": ["apriltag_corners_world"],
+      "$comment": "When dynamic_objects is present, its referenced JSON must conform to dynamic_objects_v1_2.schema.json; object timeout_ms is forbidden."
+    },
+    "licenses": {"type": "object", "required": ["notice"]},
+    "capabilities": {"type": "object", "required": ["display", "measurement", "surface_placement", "fov", "occlusion"]},
+    "provenance": {"type": "object", "required": ["gaussian", "coordinate_stage"]}
+  },
+  "$defs": {
+    "axis_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["handedness", "x", "y", "z"],
+      "properties": {
+        "handedness": {"const": "right"},
+        "x": {"type": "string"}, "y": {"type": "string"}, "z": {"type": "string"}
+      }
+    },
+    "transform": {
+      "type": "object", "additionalProperties": false,
+      "required": ["translation", "rotation_xyzw"],
+      "properties": {
+        "translation": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "items": false},
+        "rotation_xyzw": {
+          "type": "array",
+          "description": "Unit quaternion in x, y, z, w order. JSON Schema cannot express its norm; runtime validation rejects non-finite, zero, or |norm - 1| > 1e-6 values.",
+          "prefixItems": [{"type": "number"}, {"type": "number"}, {"type": "number"}, {"type": "number"}],
+          "items": false
+        }
+      }
+    }
+  }
+}

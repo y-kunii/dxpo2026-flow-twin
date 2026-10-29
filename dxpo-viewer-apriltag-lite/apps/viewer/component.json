@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "id": "viewer",
+  "kind": "web-application",
+  "source": "web_viewer/app",
+  "entry_mode": "viewer",
+  "canonical_input": "data/scene_repository/packages/scenes/<scene_package_id>",
+  "runtime_input": "web_viewer/app/public/scene_package/runtime/<scene_package_id>"
+}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viewer interaction harness</title>
+    <style>
+      body { margin: 0; min-height: 100vh; background: #d7d0c5; color: #111827; font-family: system-ui, sans-serif; }
+      .harness-controls { position: fixed; left: 16px; bottom: 16px; z-index: 30; display: flex; gap: 8px; padding: 10px; background: #fff; border-radius: 8px; }
+      .harness-state { position: fixed; left: 16px; top: 16px; padding: 10px; background: #fff; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <div class="harness-state">
+      <div data-testid="camera-position">0.000,0.000,5.000</div>
+      <div data-testid="camera-direction">0.000,0.000,-1.000</div>
+    </div>
+    <div class="harness-controls">
+      <button type="button" data-count="0">0箱</button>
+      <button type="button" data-count="1">1箱</button>
+      <button type="button" data-count="2">2箱</button>
+      <button type="button" data-count="3">3箱</button>
+      <button type="button" data-count="4">4箱</button>
+      <button type="button" data-testid="toggle-viewer-ui">Viewer UIを切替</button>
+    </div>
+    <script type="module" src="/e2e/viewer_harness.ts"></script>
+  </body>
+</html>

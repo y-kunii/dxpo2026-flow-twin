@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "coordinate_frame": "gs_world",
+  "unit": "meter",
+  "rotation_order": "xyzw",
+  "metric_quality": {
+    "status": "verified",
+    "quality_gate": {
+      "status": "verified",
+      "thresholds": {
+        "max_diagonal_ratio": 1.15,
+        "max_normalized_ray_residual": 0.25,
+        "max_side_cv": 0.08,
+        "min_observation_count_per_corner": 8.0
+      }
+    }
+  },
+  "frames": {
+    "apriltag_tag25h9_0": {
+      "translation_m": [
+        -1.9498016576367234,
+        -0.059395876925607716,
+        3.836025736474979
+      ],
+      "rotation_xyzw": [
+        -0.004814982222489291,
+        0.9884368636224934,
+        0.0059825152894984355,
+        -0.1514384102172778
+      ]
+    }
+  }
+}

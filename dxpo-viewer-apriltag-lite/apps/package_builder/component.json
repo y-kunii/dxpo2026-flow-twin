@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "id": "package-builder",
+  "kind": "web-application",
+  "source": "web_viewer/app",
+  "entry_mode": "package-builder",
+  "service_dependencies": ["control-api"],
+  "api_features": ["package-builder"]
+}

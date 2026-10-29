@@ -1,0 +1,70 @@
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04@sha256:ad6d59a3bbf3e82c1c849c9ac09cfc2a3e0bbb8655042fd899be6681b3fe2a85
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    wget \
+    ffmpeg \
+    colmap \
+    python3 \
+    python3-pip \
+    python3-venv \
+    build-essential \
+    cmake \
+    ninja-build \
+    docker.io \
+    gosu \
+    libgl1 \
+    libgles2 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install --no-cache-dir \
+    pip==26.1.2 \
+    setuptools==83.0.0 \
+    wheel==0.47.0
+
+# Grounding DINO and SAM 2.1 Large require PyTorch.  Keep the CUDA wheel
+# explicit so the person-mask stage does not silently fall back to CPU.
+RUN python3 -m pip install --no-cache-dir \
+    --index-url https://download.pytorch.org/whl/cu128 \
+    torch==2.7.1 \
+    torchvision==0.22.1
+
+WORKDIR /workspace
+
+COPY docker/start_application_api.sh /usr/local/bin/start_application_api
+RUN chmod 0755 /usr/local/bin/start_application_api
+
+COPY generation_pipeline/requirements.txt generation_pipeline/requirements-core.txt /tmp/
+RUN python3 -m pip install --no-cache-dir -r /tmp/requirements.txt
+
+# NOTE:
+# COLMAP は GPU・CUDA・PyTorch の組み合わせに依存する。正式経路と品質条件は
+# docs/apps/colmap/pipeline-design.md に記録する。
+# 3DGS学習は LichtFeld Studio による外部工程であり、本コンテナには含めない。
+
+CMD ["/bin/bash"]
+
+# AprilTag detection for scale alignment
+RUN python3 -m pip install --no-cache-dir \
+    opencv-python-headless==5.0.0.93 \
+    pupil-apriltags==1.0.4.post11 \
+    mediapipe==0.10.35
+
+# MediaPipe Tasks needs a local model asset.  The artifact is not checked into
+# Git; its immutable upstream revision and SHA-256 are verified while building
+# the generation image.
+ARG MEDIAPIPE_SELFIE_SEGMENTER_URL=https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/1/selfie_segmenter.tflite
+ARG MEDIAPIPE_SELFIE_SEGMENTER_SHA256=191ac9529ae506ee0beefa6b2c945a172dab9d07d1e802a290a4e4038226658b
+RUN mkdir -p /opt/models \
+    && curl --fail --location --retry 3 "$MEDIAPIPE_SELFIE_SEGMENTER_URL" --output /opt/models/selfie_segmenter.tflite \
+    && echo "$MEDIAPIPE_SELFIE_SEGMENTER_SHA256  /opt/models/selfie_segmenter.tflite" | sha256sum --check
+
+COPY generation_pipeline/runtime_environment.lock.json /tmp/runtime_environment.lock.json
+COPY scripts/verify_generation_environment.py /tmp/verify_generation_environment.py
+RUN python3 /tmp/verify_generation_environment.py \
+    --lock /tmp/runtime_environment.lock.json \
+    --model-root /opt/models

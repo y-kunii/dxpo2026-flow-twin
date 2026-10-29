@@ -1,0 +1,25 @@
+FROM node:20.19.5-bookworm-slim@sha256:9e70124bd00f47dd023e349cd587132ae61892acc0e47ed641416c3e18f401c3
+
+RUN apt-get update && apt-get install -y \
+    git \
+    gosu \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable
+
+WORKDIR /workspace
+
+COPY docker/start_spatial_app.sh /usr/local/bin/start_spatial_app
+COPY docker/drop_web_privileges.sh /usr/local/lib/spatial/drop_web_privileges.sh
+RUN chmod 0755 /usr/local/bin/start_spatial_app /usr/local/lib/spatial/drop_web_privileges.sh
+
+# A fresh source checkout must not depend on host node_modules.  The Compose
+# development service mounts a named volume at this path; Docker initializes a
+# new volume from these lockfile-resolved dependencies.
+COPY web_viewer/app/package.json web_viewer/app/package-lock.json ./web_viewer/app/
+RUN npm --prefix web_viewer/app ci \
+    && sha256sum web_viewer/app/package-lock.json \
+      | cut -d ' ' -f 1 > web_viewer/app/node_modules/.package-lock.sha256 \
+    && chown -R node:node /workspace/web_viewer/app
+
+CMD ["/bin/bash"]

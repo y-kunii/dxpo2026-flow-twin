@@ -1,0 +1,22 @@
+{
+  "api_version": "spatial.product/v1",
+  "kind": "ProductProfile",
+  "metadata": {"id": "ai-inspection", "version": "0.1.0", "label": "AI Inspection", "tier": "tier-1"},
+  "composition": {
+    "ui_modules": ["frame-analysis", "simple-viewer"],
+    "backend_components": ["scene-reader-api", "search-api", "frame-analysis-api", "frame-vlm-worker"],
+    "viewer_variant": "simple"
+  },
+  "features": {"required": ["scene-viewing", "registered-frame-analysis", "record-search"], "optional": ["active-analysis-seed"]},
+  "content": {
+    "minimum_scene_packages": 1,
+    "maximum_scene_packages": 1,
+    "required_scene_capabilities": ["display"],
+    "include_active_analysis": true
+  },
+  "platforms": {"supported_targets": ["linux-x86_64-nvidia"], "qualification_targets": ["linux-x86_64-nvidia-8gb", "linux-x86_64-nvidia-12gb", "linux-x86_64-nvidia-16gb", "linux-x86_64-nvidia-24gb"], "planned": ["windows-x86_64-nvidia"]},
+  "permissions": {"scene": "read", "site_records": "read-write-overlay", "repository_admin": false},
+  "distribution": {"modes": ["split", "offline"], "planned_modes": ["connected"], "default_mode": "split"},
+  "support": {"policy": "internal-product-support-v1", "diagnostic_bundle": true, "overlay_backup_restore": true, "state_transfer": true},
+  "acceptance": {"suite": "ai-inspection-v1", "required": ["contract", "viewer", "vlm", "continuation", "offline-install", "recovery"]}
+}

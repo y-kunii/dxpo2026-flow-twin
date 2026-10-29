@@ -1,0 +1,8 @@
+# Shared, deterministic Python boundary used by runtime and contract tests.
+# Keep framework and numerical versions here so CI cannot silently validate a
+# different implementation from the Docker/standalone application runtime.
+Pillow==12.3.0
+scipy==1.15.3
+faiss-cpu==1.12.0
+fastapi==0.139.2
+uvicorn==0.51.0

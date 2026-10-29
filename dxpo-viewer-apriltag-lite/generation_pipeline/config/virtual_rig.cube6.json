@@ -1,0 +1,6 @@
+{
+  "layout": "cube_6",
+  "hfov_deg": 90.0,
+  "vfov_deg": 90.0,
+  "camera_model": "SIMPLE_PINHOLE"
+}

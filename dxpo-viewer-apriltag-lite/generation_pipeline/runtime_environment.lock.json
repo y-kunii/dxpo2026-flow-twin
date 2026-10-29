@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "base_image": "nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04@sha256:ad6d59a3bbf3e82c1c849c9ac09cfc2a3e0bbb8655042fd899be6681b3fe2a85",
+  "python_major_minor": "3.10",
+  "cuda": {
+    "torch_build": "12.8"
+  },
+  "commands": {
+    "colmap": "COLMAP 3.7",
+    "ffmpeg": "ffmpeg version 4.4.2"
+  },
+  "child_images": {
+    "colmap": {
+      "image": "colmap/colmap@sha256:b809882552887b6471094dcadd2f2eb01656b010663564c43a5e7f04c0a08f2f",
+      "version_prefix": "COLMAP 4.2.0.dev0"
+    }
+  },
+  "python_packages": {
+    "Pillow": "12.3.0",
+    "accelerate": "1.14.0",
+    "mediapipe": "0.10.35",
+    "opencv-python-headless": "5.0.0.93",
+    "pip": "26.1.2",
+    "pupil-apriltags": "1.0.4.post11",
+    "scipy": "1.15.3",
+    "setuptools": "83.0.0",
+    "torch": "2.7.1+cu128",
+    "torchvision": "0.22.1+cu128",
+    "transformers": "5.14.1",
+    "wheel": "0.47.0"
+  },
+  "model_assets": {
+    "selfie_segmenter.tflite": "191ac9529ae506ee0beefa6b2c945a172dab9d07d1e802a290a4e4038226658b"
+  }
+}

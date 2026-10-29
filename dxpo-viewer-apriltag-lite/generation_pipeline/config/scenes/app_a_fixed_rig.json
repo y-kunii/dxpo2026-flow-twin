@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "app_a_fixed_rig",
+  "input_projection": "equirectangular_360",
+  "input_video": "data/scene_repository/assets/source_files/template/no_video_selected.mp4",
+  "workspace": "var/spatial/workspaces/template/fixed_rig",
+  "scene_package_output": "var/spatial/workspaces/template/fixed_rig/retired_scene_package_output",
+  "viewer_publish_output": "var/spatial/workspaces/template/fixed_rig/retired_viewer_publish_output",
+  "virtual_rig": {
+    "profile": "default",
+    "config": "generation_pipeline/config/virtual_rig.default.json",
+    "render_manifest": "var/spatial/workspaces/template/fixed_rig/render_manifest.json"
+  },
+  "preprocessing": {
+    "frame_interval_sec": 1.0,
+    "max_frame_interval_for_metric_marker_sec": 1.0,
+    "panoramas": "var/spatial/workspaces/template/fixed_rig/panoramas"
+  },
+  "person_mask": {
+    "config": "generation_pipeline/config/person_mask.default.json",
+    "static_masks": "var/spatial/workspaces/template/fixed_rig/masks",
+    "person_masks": "var/spatial/workspaces/template/fixed_rig/masks_person",
+    "colmap_masks": "var/spatial/workspaces/template/fixed_rig/masks_person_colmap",
+    "report": "var/spatial/workspaces/template/fixed_rig/mask_quality.json",
+    "docker_image": "spatial-3dgs-system-generation:latest"
+  },
+  "sfm": {
+    "profile": "fixed_rig",
+    "model": "var/spatial/workspaces/template/fixed_rig/colmap_sequential/text",
+    "manifest": "var/spatial/workspaces/template/fixed_rig/colmap_sequential/manifest.json",
+    "images": "var/spatial/workspaces/template/fixed_rig/images",
+    "masks": "var/spatial/workspaces/template/fixed_rig/masks_person_colmap",
+    "rig_config": "var/spatial/workspaces/template/fixed_rig/rig_config.json"
+  },
+  "gsplat": {
+    "profile": "external",
+    "spz": "var/spatial/workspaces/template/scene.spz",
+    "manifest": "var/spatial/workspaces/template/scene_manifest.json",
+    "provenance": "LichtFeld Studio external stage"
+  },
+  "metric_marker": {
+    "enabled": true,
+    "family": "tag25h9",
+    "id": 0,
+    "size_m": 0.1,
+    "accepted_selection_policy": "canonical_single_marker",
+    "quality_gate": {
+      "min_observation_count_per_corner": 8,
+      "max_side_cv": 0.08,
+      "max_diagonal_ratio": 1.15,
+      "max_normalized_ray_residual": 0.25
+    },
+    "quality": "var/spatial/workspaces/template/fixed_rig/apriltag/quality.json",
+    "world_alignment": "var/spatial/workspaces/template/fixed_rig/world_alignment.json",
+    "corners_world": "var/spatial/workspaces/template/fixed_rig/apriltag_corners_world.json"
+  },
+  "dense": {
+    "profile": "full",
+    "workspace": "var/spatial/workspaces/template/fixed_rig/proxy_dense/dense",
+    "config": "generation_pipeline/config/proxy_geometry.default.json",
+    "world_alignment": "var/spatial/workspaces/template/fixed_rig/world_alignment.json",
+    "quality": "dense_quality.json"
+  },
+  "proxy": {
+    "mode": "surface_mesh",
+    "config": "generation_pipeline/config/proxy_geometry.default.json",
+    "quality": "proxy_quality.json"
+  },
+  "execution": {
+    "profile": "quality",
+    "resume": true,
+    "dry_run": false,
+    "stop_after": null,
+    "profiles": {
+      "fast": {"reuse_sfm": false, "reuse_spz": false, "reuse_dense": false, "reuse_proxy": false},
+      "quality": {"reuse_sfm": false, "reuse_spz": false, "reuse_dense": false, "reuse_proxy": false},
+      "auto": {"reuse_sfm": false, "reuse_spz": false, "reuse_dense": false, "reuse_proxy": false, "fallback_profile": "quality"}
+    }
+  },
+  "reuse": {
+    "person_mask": false,
+    "sfm": false,
+    "spz": false,
+    "dense": false,
+    "proxy": false
+  },
+  "build": {
+    "working_directory": "web_viewer/app",
+    "command": ["npm", "run", "build"],
+    "smoke_command": ["npm", "run", "test:smoke"]
+  }
+}
